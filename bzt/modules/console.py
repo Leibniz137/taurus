@@ -243,6 +243,9 @@ class ConsoleStatusReporter(Reporter, AggregatorListener):
                 logger = logger.root
 
     def __redirect_streams(self):
+
+        self.log.warning('_dd self.__streams_redirected=%s' % self.__streams_redirected)
+
         if self.__streams_redirected:
             return
 
@@ -250,7 +253,13 @@ class ConsoleStatusReporter(Reporter, AggregatorListener):
             if not is_windows():
                 self.__detect_console_logger()
 
+        self.log.warning('_dd self.screen.started=%s' % self.screen.started)
+
         if not self.screen.started:
+
+            self.log.warning('_dd self.orig_streams=%s' % self.orig_streams)
+            self.log.warning('_dd self.loggre_handlers=%s' % self.logger_handlers)
+
             if self.orig_streams:
                 raise RuntimeError("Orig streams already set")
             elif self.logger_handlers and not self.orig_streams:

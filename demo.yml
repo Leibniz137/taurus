@@ -1,0 +1,12 @@
+---
+execution:
+- executor: jmeter
+  concurrency: 1
+  iterations: 1
+  scenario: jmt
+
+scenarios:
+  jmt:
+    requests:
+    - http://blazedemo.com
+    #- http://ya.ru
