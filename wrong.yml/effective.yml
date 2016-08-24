@@ -20,6 +20,7 @@ cli-aliases:
   report:
     reporting:
     - blazemeter
+    - blazemeter
 execution:
 - concurrency:
     local: 1
@@ -35,7 +36,7 @@ execution:
   throughput:
     local: null
   write-xml-jtl: error
-install-id: N/A
+install-id: 0bea35c1-8abe-4074-931f-b84a20b0b89e
 modules:
   ab:
     class: bzt.modules.ab.ApacheBenchmarkExecutor
@@ -57,6 +58,8 @@ modules:
   console:
     class: bzt.modules.console.ConsoleStatusReporter
     disable: false
+    dummy-cols: 140
+    dummy-rows: 35
     screen: console
   consolidator:
     buffer-multiplier: 2
@@ -64,6 +67,7 @@ modules:
     class: bzt.modules.aggregator.ConsolidatingAggregator
     generalize-labels: false
     ignore-labels:
+    - ignore
     - ignore
     max-buffer-len: .inf
     min-buffer-len: 2
@@ -75,6 +79,8 @@ modules:
     - 99.0
     - 99.9
     - 100.0
+  fail-criteria:
+    class: bzt.modules.passfail.PassFailStatus
   final_stats:
     class: bzt.modules.reporting.FinalStatus
   gatling:
@@ -111,7 +117,7 @@ modules:
       jmeterengine.nongui.port: 4445
       mode: Stripped
       summariser.name: ''
-      user.classpath: /tmp/bzt/2016-08-24_16-13-49.469725
+      user.classpath: /tmp/bzt/2016-08-24_16-09-58.587550
     shutdown-port: 4445
     shutdown-wait: 5
     system-properties:
@@ -154,6 +160,14 @@ modules:
     class: bzt.modules.services.Unpacker
 provisioning: local
 reporting:
+- dump-csv: null
+  dump-xml: null
+  failed-labels: false
+  module: final_stats
+  percentiles: true
+  summary: true
+  test-duration: true
+- module: console
 - dump-csv: null
   dump-xml: null
   failed-labels: false
