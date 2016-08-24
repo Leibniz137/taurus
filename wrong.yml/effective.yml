@@ -1,0 +1,224 @@
+---
+cli-aliases:
+  cloud:
+    provisioning: cloud
+  detach:
+    modules:
+      cloud:
+        detach: true
+  gui:
+    modules:
+      jmeter:
+        gui: true
+  local:
+    provisioning: local
+  locations:
+    modules:
+      cloud:
+        dump-locations: true
+    provisioning: cloud
+  report:
+    reporting:
+    - blazemeter
+execution:
+- concurrency:
+    local: 1
+  delay: 0
+  distributed: []
+  executor: jmeter
+  hold-for: 0
+  iterations: 1
+  ramp-up: null
+  scenario: jmt
+  start-at: ''
+  steps: null
+  throughput:
+    local: null
+  write-xml-jtl: error
+install-id: N/A
+modules:
+  ab:
+    class: bzt.modules.ab.ApacheBenchmarkExecutor
+  blazemeter:
+    class: bzt.modules.blazemeter.BlazeMeterUploader
+  chrome-metric-reporter:
+    class: bzt.modules.chrome.MetricReporter
+  chrome-profiler:
+    class: bzt.modules.chrome.ChromeProfiler
+    processors:
+      trace:
+        class: bzt.modules.chrome.TraceProcessor
+        extractors:
+        - bzt.modules.chrome.TabNameExtractor
+        - bzt.modules.chrome.MemoryMetricsExtractor
+  cloud:
+    class: bzt.modules.blazemeter.CloudProvisioning
+    default-location: us-central1-a
+  console:
+    class: bzt.modules.console.ConsoleStatusReporter
+    disable: false
+    screen: console
+  consolidator:
+    buffer-multiplier: 2
+    buffer-scale-choice: 0.5
+    class: bzt.modules.aggregator.ConsolidatingAggregator
+    generalize-labels: false
+    ignore-labels:
+    - ignore
+    max-buffer-len: .inf
+    min-buffer-len: 2
+    percentiles:
+    - 0.0
+    - 50.0
+    - 90.0
+    - 95.0
+    - 99.0
+    - 99.9
+    - 100.0
+  final_stats:
+    class: bzt.modules.reporting.FinalStatus
+  gatling:
+    class: bzt.modules.gatling.GatlingExecutor
+    properties:
+      gatling.data.file.bufferSize: 256
+  grinder:
+    class: bzt.modules.grinder.GrinderExecutor
+    path: ~/.bzt/grinder-taurus/lib/grinder.jar
+    properties:
+      grinder.useConsole: false
+  jmeter:
+    class: bzt.modules.jmeter.JMeterExecutor
+    download-link: null
+    gui: false
+    memory-xmx: null
+    path: /home/fenrir/.bzt/jmeter-taurus/bin/jmeter.sh
+    plugins:
+    - jpgc-casutg
+    - jpgc-dummy
+    - jpgc-ffw
+    - jpgc-fifo
+    - jpgc-functions
+    - jpgc-json
+    - jpgc-perfmon
+    - jpgc-prmctl
+    - jpgc-tst
+    properties:
+      jmeter.save.saveservice.autoflush: 'true'
+      jmeter.save.saveservice.connect_time: 'true'
+      jmeter.save.saveservice.timestamp_format: ms
+      jmeterengine.force.system.exit: 'true'
+      jmeterengine.nongui.maxport: 4445
+      jmeterengine.nongui.port: 4445
+      mode: Stripped
+      summariser.name: ''
+      user.classpath: /tmp/bzt/2016-08-24_16-13-49.469725
+    shutdown-port: 4445
+    shutdown-wait: 5
+    system-properties:
+      sun.net.inetaddr.ttl: 0
+    version: '3.0'
+    xml-jtl-flags: {}
+  jtl-loader: bzt.modules.jmeter.JMeterJTLLoaderExecutor
+  junit-xml:
+    class: bzt.modules.reporting.JUnitXMLReporter
+  local:
+    class: bzt.modules.provisioning.Local
+  locust:
+    class: bzt.modules.locustio.LocustIOExecutor
+  monitoring:
+    class: bzt.modules.monitoring.Monitoring
+  passfail:
+    class: bzt.modules.passfail.PassFailStatus
+  pbench:
+    class: bzt.modules.pbench.PBenchExecutor
+  proxy2jmx:
+    class: bzt.modules.proxy2jmx.Proxy2JMX
+  selenium:
+    class: bzt.modules.selenium.SeleniumExecutor
+    selenium-tools:
+      junit:
+        hamcrest-core: ~/.bzt/selenium-taurus/tools/junit/hamcrest-core.jar
+        jar-name: compiled.jar
+        path: ~/.bzt/selenium-taurus/tools/junit/junit.jar
+        selenium-server: ~/.bzt/selenium-taurus/selenium-server.jar
+        working-dir: classes
+      nose:
+        working-dir: classes
+  shellexec:
+    class: bzt.modules.shellexec.ShellExecutor
+  siege:
+    class: bzt.modules.siege.SiegeExecutor
+  tsung:
+    class: bzt.modules.tsung.TsungExecutor
+  unpacker:
+    class: bzt.modules.services.Unpacker
+provisioning: local
+reporting:
+- dump-csv: null
+  dump-xml: null
+  failed-labels: false
+  module: final_stats
+  percentiles: true
+  summary: true
+  test-duration: true
+- module: console
+scenarios:
+  jmt:
+    concurrent-pool-size: 4
+    data-sources: []
+    default-address: null
+    disable-listeners: true
+    force-parent-sample: true
+    headers: {}
+    keepalive: true
+    modifications: {}
+    properties:
+      jmeter.save.saveservice.timestamp_format: ms
+      jmeterengine.nongui.maxport: 4445
+      jmeterengine.nongui.port: 4445
+    requests:
+    - assert: []
+      assert-jsonpath: []
+      assert-xpath: []
+      body: null
+      body-file: null
+      extract-css-jquery: {}
+      extract-jsonpath: {}
+      extract-regexp: {}
+      extract-xpath: {}
+      headers: {}
+      label: http://blazedemo.com
+      method: GET
+      think-time: null
+      timeout: null
+      upload-files: []
+      url: http://blazedemo.com
+    retrieve-resources: true
+    store-cache: true
+    store-cookie: true
+    think-time: null
+    timeout: null
+    use-dns-cache-mgr: true
+    variables: {}
+services:
+- local:
+  - metrics:
+    - cpu
+    - mem
+    - bytes-sent
+    - bytes-recv
+    - disk-read
+    - disk-write
+    - disk-space
+    - engine-loop
+  module: monitoring
+settings:
+  aggregator: consolidator
+  artifacts-dir: /tmp/bzt/%Y-%m-%d_%H-%M-%S.%f
+  check-interval: 1
+  check-updates: true
+  default-executor: jmeter
+  hostaliases: {}
+  proxy: {}
+version: 1.6.7
+
